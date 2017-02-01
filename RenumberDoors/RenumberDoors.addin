@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+  <AddIn Type="Command">
+    <Text>Command RenumberDoors</Text>
+    <Description>Some description for RenumberDoors</Description>
+    <Assembly>RenumberDoors.dll</Assembly>
+    <FullClassName>RenumberDoors.Command</FullClassName>
+    <ClientId>6fb02609-f568-4345-ba8f-7aedefaa5c80</ClientId>
+    <VendorId>com.typepad.thebuildingcoder</VendorId>
+    <VendorDescription>The Building Coder, http://thebuildingcoder.typepad.com</VendorDescription>
+  </AddIn>
+  <AddIn Type="Application">
+    <Name>Application RenumberDoors</Name>
+    <Assembly>RenumberDoors.dll</Assembly>
+    <FullClassName>RenumberDoors.App</FullClassName>
+    <ClientId>0ef10207-f5ee-4768-bf80-ce13c25fc232</ClientId>
+    <VendorId>com.typepad.thebuildingcoder</VendorId>
+    <VendorDescription>The Building Coder, http://thebuildingcoder.typepad.com</VendorDescription>
+  </AddIn>
+</RevitAddIns>
