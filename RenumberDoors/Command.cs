@@ -7,6 +7,7 @@ using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Selection;
+using System.Linq;
 #endregion
 
 namespace RenumberDoors
@@ -24,32 +25,14 @@ namespace RenumberDoors
             Application app = uiapp.Application;
             Document doc = uidoc.Document;
 
-            // Access current selection
+            List<Level> levels = LevelSelector.FindAndSortLevels(doc);
 
-            Selection sel = uidoc.Selection;
+            ElementId levelId = levels.First().Id;
 
-            // Retrieve elements from database
+            List<Element> doors = DoorSelector.GetDoors(doc, levelId);
 
-            FilteredElementCollector col
-              = new FilteredElementCollector(doc)
-                .WhereElementIsNotElementType()
-                .OfCategory(BuiltInCategory.INVALID)
-                .OfClass(typeof(Wall));
-
-            // Filtered element collector is iterable
-
-            foreach (Element e in col)
-            {
-                Debug.Print(e.Name);
-            }
-
-            // Modify document within a transaction
-
-            using (Transaction tx = new Transaction(doc))
-            {
-                tx.Start("Transaction Name");
-                tx.Commit();
-            }
+            DoorRenumber renumerator = new DoorRenumber(uiapp, uidoc, doors);
+            renumerator.DoorRenumbering();
 
             return Result.Succeeded;
         }
