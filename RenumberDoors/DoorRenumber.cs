@@ -17,7 +17,27 @@ namespace RenumberDoors
                             .WherePasses(new ElementClassFilter(typeof(Level), false))
                             .Cast<Level>()
                             .OrderBy(e => e.Elevation)
-                                .ToList();
+                            .ToList();
+        }
+
+        public static String [] FindAndSortLevelNames(Document doc)
+        {
+            return new FilteredElementCollector(doc)
+                            .WherePasses(new ElementClassFilter(typeof(Level), false))
+                            .Cast<Level>()
+                            .OrderBy(e => e.Elevation)
+                            .Select(x => x.Name)
+                            .ToArray();
+        }
+
+        public static ElementId levelId(Document doc, string level)
+        {
+            return new FilteredElementCollector(doc)
+                            .WherePasses(new ElementClassFilter(typeof(Level), false))
+                            .Cast<Level>()
+                            .Where(x => x.Name.Equals(level))
+                            .Select(x => x.Id)
+                            .First();
         }
     }
     /// <summary>
@@ -25,18 +45,31 @@ namespace RenumberDoors
     /// </summary>
     public static class DoorSelector
     {
-        public static List<Element> GetDoors(Document doc, ElementId levelId)
+        public static List<Element> GetDoors(Document doc, ElementId levelId, string doorType)
         {
             FilteredElementCollector collector = new FilteredElementCollector(doc);
 
             List<Element> elements = collector
                 .OfCategory(BuiltInCategory.OST_Doors)
-                .WhereElementIsNotElementType()
-                .ToList()
+                .WherePasses(new ElementClassFilter(typeof(FamilyInstance), false))
+                .Cast<FamilyInstance>()
                 .Where(x => x.LevelId == levelId)
+                .Where(x => x.Symbol.FamilyName.Equals(doorType))
+                .Cast<Element>()
                 .ToList();
 
             return elements;
+        }
+
+        public static String [] GetDoorTypes(Document doc)
+        {
+            return new FilteredElementCollector(doc)
+                            .OfCategory(BuiltInCategory.OST_Doors)
+                            .WherePasses(new ElementClassFilter(typeof(FamilySymbol), false))
+                            .Cast<FamilySymbol>()
+                            .GroupBy(e => e.FamilyName)
+                            .Select(e => e.Key)
+                            .ToArray();
         }
 
     }
@@ -46,32 +79,25 @@ namespace RenumberDoors
     /// </summary>
     class DoorRenumber
     {
-        private UIApplication uiapp;
+        //private UIApplication uiapp;
         private UIDocument uidoc;
-        private Autodesk.Revit.ApplicationServices.Application app;
+        //private Autodesk.Revit.ApplicationServices.Application app;
         private Document doc;
         private List<Element> elements;
 
         private int increment = 0;
 
-        public DoorRenumber(UIApplication uiapp, UIDocument uidoc, List<Element> elements)
+        public DoorRenumber(UIDocument uidoc, List<Element> elements)
         {
-            this.uiapp = uiapp;
+            //this.uiapp = uiapp;
+            //this.app = uiapp.Application;
             this.uidoc = uidoc;
-            this.app = uiapp.Application;
             this.doc = uidoc.Document;
             this.elements = elements;
         }
 
-        public void DoorRenumbering()
+        public void DoorRenumbering(Curve curve)
         {
-            ISelectionFilter filter = new LineSelectionFilter();
-
-            Reference reference = uidoc.Selection.PickObject(ObjectType.Element, filter, "Select direction curve");
-
-            Curve curve = (doc.GetElement(reference.ElementId) as ModelCurve).GeometryCurve;
-
-
             List<LocationPoint> points = new List<LocationPoint>();
             
             Dictionary<Element, double> sort = new Dictionary<Element, double>();

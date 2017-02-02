@@ -3,3 +3,5 @@ c:\users\deyan nenov\documents\visual studio 2015\Projects\RenumberDoors\Renumbe
 c:\users\deyan nenov\documents\visual studio 2015\Projects\RenumberDoors\RenumberDoors\obj\Debug\RenumberDoors.csprojResolveAssemblyReference.cache
 c:\users\deyan nenov\documents\visual studio 2015\Projects\RenumberDoors\RenumberDoors\obj\Debug\RenumberDoors.dll
 c:\users\deyan nenov\documents\visual studio 2015\Projects\RenumberDoors\RenumberDoors\obj\Debug\RenumberDoors.pdb
+C:\Users\Deyan Nenov\Documents\Visual Studio 2015\Projects\RenumberDoors\RenumberDoors\obj\Debug\RenumberDoors.DRInterface.resources
+C:\Users\Deyan Nenov\Documents\Visual Studio 2015\Projects\RenumberDoors\RenumberDoors\obj\Debug\RenumberDoors.csproj.GenerateResource.Cache
