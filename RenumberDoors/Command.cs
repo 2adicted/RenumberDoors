@@ -23,7 +23,10 @@ namespace RenumberDoors
         private Application app;
         private Document doc;
 
-        internal string level, doorType;
+        internal string level;
+        internal List<string> doorType;
+
+        internal string prefix, suffix;
 
         public Result Execute(
           ExternalCommandData commandData,
@@ -62,7 +65,7 @@ namespace RenumberDoors
         {
             List<Autodesk.Revit.DB.Element> doors = DoorSelector.GetDoors(doc, LevelSelector.levelId(doc, level), doorType);
 
-            DoorRenumber renumerator = new DoorRenumber(uidoc, doors);
+            DoorRenumber renumerator = new DoorRenumber(uidoc, doors, prefix, suffix);
 
             ISelectionFilter filter = new DoorRenumber.LineSelectionFilter();
 

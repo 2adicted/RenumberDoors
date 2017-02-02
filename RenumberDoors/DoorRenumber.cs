@@ -45,7 +45,7 @@ namespace RenumberDoors
     /// </summary>
     public static class DoorSelector
     {
-        public static List<Element> GetDoors(Document doc, ElementId levelId, string doorType)
+        public static List<Element> GetDoors(Document doc, ElementId levelId, List<string> doorType)
         {
             FilteredElementCollector collector = new FilteredElementCollector(doc);
 
@@ -54,11 +54,33 @@ namespace RenumberDoors
                 .WherePasses(new ElementClassFilter(typeof(FamilyInstance), false))
                 .Cast<FamilyInstance>()
                 .Where(x => x.LevelId == levelId)
-                .Where(x => x.Symbol.FamilyName.Equals(doorType))
+                .Where(x => doorType.Contains(x.Symbol.FamilyName))
                 .Cast<Element>()
                 .ToList();
 
             return elements;
+        }
+        public static List<Element> GetDoors(Document doc, ElementId levelId, List<string> doorType, bool inverse)
+        {
+            FilteredElementCollector collector = new FilteredElementCollector(doc);
+
+            if (inverse)
+            {
+                List<Element> elements = collector
+                .OfCategory(BuiltInCategory.OST_Doors)
+                .WherePasses(new ElementClassFilter(typeof(FamilyInstance), false))
+                .Cast<FamilyInstance>()
+                .Where(x => x.LevelId == levelId)
+                .Where(x => !doorType.Contains(x.Symbol.FamilyName))
+                .Cast<Element>()
+                .ToList();
+
+                return elements;
+            }
+            else
+            {
+                return GetDoors(doc, levelId, doorType);
+            }
         }
 
         public static String [] GetDoorTypes(Document doc)
@@ -84,16 +106,27 @@ namespace RenumberDoors
         //private Autodesk.Revit.ApplicationServices.Application app;
         private Document doc;
         private List<Element> elements;
+        private string prefix, suffix;
 
-        private int increment = 0;
+        private int increment = 1;
 
-        public DoorRenumber(UIDocument uidoc, List<Element> elements)
+        private string format;
+
+        public DoorRenumber(UIDocument uidoc, List<Element> elements, string prefix, string suffix)
         {
             //this.uiapp = uiapp;
             //this.app = uiapp.Application;
             this.uidoc = uidoc;
             this.doc = uidoc.Document;
             this.elements = elements;
+            this.prefix = prefix;
+            this.suffix = suffix;
+            SetFormat(elements.Count);
+        }
+
+        private void SetFormat(int count)
+        {
+            format = String.Format("{0}{1}", "D", count.ToString().ToCharArray().Count().ToString());
         }
 
         public void DoorRenumbering(Curve curve)
@@ -125,7 +158,7 @@ namespace RenumberDoors
                 t.Start();
                 foreach (Element el in sorted)
                 {
-                    el.LookupParameter("Mark").Set(increment.ToString());
+                    el.LookupParameter("Mark").Set(String.Format("{0}{1}{2}", prefix, increment.ToString(format), suffix));
                     increment++;
                 }
                 t.Commit();
