@@ -5,3 +5,10 @@ c:\users\deyan nenov\documents\visual studio 2015\Projects\RenumberDoors\Renumbe
 c:\users\deyan nenov\documents\visual studio 2015\Projects\RenumberDoors\RenumberDoors\obj\Debug\RenumberDoors.pdb
 C:\Users\Deyan Nenov\Documents\Visual Studio 2015\Projects\RenumberDoors\RenumberDoors\obj\Debug\RenumberDoors.DRInterface.resources
 C:\Users\Deyan Nenov\Documents\Visual Studio 2015\Projects\RenumberDoors\RenumberDoors\obj\Debug\RenumberDoors.csproj.GenerateResource.Cache
+C:\Users\dneno\source\repos\RenumberDoors\RenumberDoors\bin\Debug\RenumberDoors.dll
+C:\Users\dneno\source\repos\RenumberDoors\RenumberDoors\bin\Debug\RenumberDoors.pdb
+C:\Users\dneno\source\repos\RenumberDoors\RenumberDoors\obj\Debug\RenumberDoors.DRInterface.resources
+C:\Users\dneno\source\repos\RenumberDoors\RenumberDoors\obj\Debug\RenumberDoors.csproj.GenerateResource.cache
+C:\Users\dneno\source\repos\RenumberDoors\RenumberDoors\obj\Debug\RenumberDoors.csproj.CoreCompileInputs.cache
+C:\Users\dneno\source\repos\RenumberDoors\RenumberDoors\obj\Debug\RenumberDoors.dll
+C:\Users\dneno\source\repos\RenumberDoors\RenumberDoors\obj\Debug\RenumberDoors.pdb
